@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"> <!-- Устанавливает кодировку документа на UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Обеспечивает адаптивность страницы на мобильных устройствах -->
+    <title>Магазин</title> <!-- Заголовок страницы -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Подключение Bootstrap для стилей -->
+    <style>
+        .product-card {
+            margin: 15px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container"> <!-- Контейнер Bootstrap для центрирования контента -->
+        <h1 class="text-center">Магазин товаров</h1> <!-- Заголовок магазина -->
+        <div class="text-center mb-3"> <!-- Центрированный блок для выбора сортировки -->
+            <label for="sortSelect">Сортировать по:</label> <!-- Метка для выпадающего списка -->
+            <select id="sortSelect" class="form-control d-inline-block w-auto" onchange="sortProducts()"> <!-- Выпадающий список для сортировки -->
+                <option value="name">Имя</option> <!-- Опция сортировки по имени -->
+                <option value="price">Цена</option> <!-- Опция сортировки по цене -->
+            </select>
+        </div>
+        <div class="row" id="productList"> <!-- Контейнер для списка продуктов -->
+            <!-- Продукты будут добавлены здесь -->
+        </div>
+    </div>
+
+    <script>
+        const products = [ // Массив объектов товаров
+            { name: 'Товар 1', price: 100, image: 'https://via.placeholder.com/150' }, // Пример товара с именем, ценой и изображением
+            { name: 'Товар 2', price: 200, image: 'https://via.placeholder.com/150' },
+            { name: 'Товар 3', price: 150, image: 'https://via.placeholder.com/150' },
+            // ... добавьте больше товаров по необходимости
+        ];
+
+        function displayProducts() { // Функция для отображения товаров
+            const productList = document.getElementById('productList'); // Получаем элемент для списка товаров
+            productList.innerHTML = ''; // Очищаем содержимое
+            products.forEach(product => { // Проходим по каждому товару
+                const productCard = ` <!-- Шаблон карточки товара -->
+                    <div class="col-md-4 product-card"> <!-- Колонка для карточки товара -->
+                        <div class="card"> <!-- Карточка Bootstrap -->
+                            <img src="${product.image}" class="card-img-top" alt="${product.name}"> <!-- Изображение товара -->
+                            <div class="card-body"> <!-- Тело карточки -->
+                                <h5 class="card-title">${product.name}</h5> <!-- Название товара -->
+                                <p class="card-text">Цена: ${product.price} руб.</p> <!-- Цена товара -->
+                                <button class="btn btn-primary">Купить</button> <!-- Кнопка для покупки -->
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productList.innerHTML += productCard; // Добавляем карточку товара в список
+            });
+        }
+
+        function sortProducts() { // Функция для сортировки товаров
+            const sortBy = document.getElementById('sortSelect').value; // Получаем выбранный параметр сортировки
+            products.sort((a, b) => { // Сортируем массив товаров
+                if (sortBy === 'name') { // Если сортировка по имени
+                    return a.name.localeCompare(b.name); // Сравниваем имена
+                } else { // Если сортировка по цене
+                    return a.price - b.price; // Сравниваем цены
+                }
+            });
+            displayProducts(); // Обновляем отображение товаров
+        }
+
+        // Инициализация
+        displayProducts(); 
+    </script>
+</body>
+</html>
